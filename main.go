@@ -26,8 +26,7 @@ func main() {
 	// Loop through and get deployments
 	for {
 		currentDay := time.Now().Weekday().String()
-		deploymentInterface := clientset.AppsV1().Deployments("")
-		deployments, err := deploymentInterface.List(context.TODO(), metav1.ListOptions{})
+		deployments, err := clientset.AppsV1().Deployments("").List(context.TODO(), metav1.ListOptions{})
 		if err != nil {
 			log.Fatalf("Failed to retrieve deployments: %v\n", err)
 		}
@@ -51,6 +50,7 @@ func main() {
 				if scaleToZero {
 					// TODO: Save current scale somewhere are retrieve it when we need to scale up again
 					// Note: HPAs are disabled when scaled down to 0 until scaled back to original value
+					deploymentInterface := clientset.AppsV1().Deployments(deployment.Name)
 					currentScale, err := deploymentInterface.GetScale(context.TODO(), deployment.Name, metav1.GetOptions{})
 					if err != nil {
 						log.Fatalf("Failed to get current scale of the %v deployment:\n%v\n", deployment.Name, err)
