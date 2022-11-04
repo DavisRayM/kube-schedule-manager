@@ -66,5 +66,8 @@ func main() {
 				}
 			}
 		}
+
+		// Sleep for 30 seconds per scan... Probably want less
+		time.Sleep(time.Second * 30)
 	}
 }
