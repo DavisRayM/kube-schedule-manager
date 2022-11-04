@@ -38,9 +38,9 @@ func main() {
 			labels := deployment.Labels
 
 			// Retrieve Deployment Schedule
-			// Valid Schedules: Mon,Sat,Sun
+			// Valid Schedules: Mon-Sat-Sun
 			if schedule, ok := labels["schedule"]; ok {
-				activeDays := strings.Split(schedule, ",")
+				activeDays := strings.Split(schedule, "-")
 				scaleToZero := true
 
 				// Check if we should scale down the deployment
