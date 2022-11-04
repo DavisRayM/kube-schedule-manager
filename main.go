@@ -53,7 +53,8 @@ func main() {
 					deploymentInterface := clientset.AppsV1().Deployments(deployment.Name)
 					currentScale, err := deploymentInterface.GetScale(context.TODO(), deployment.Name, metav1.GetOptions{})
 					if err != nil {
-						log.Fatalf("Failed to get current scale of the %v deployment:\n%v\n", deployment.Name, err)
+						log.Printf("Failed to get current scale of the %v deployment:\n%v\n", deployment.Name, err)
+						continue
 					}
 					newScale := *currentScale
 					newScale.Spec.Replicas = 0
@@ -61,7 +62,8 @@ func main() {
 					log.Printf("Scaling down the %v deployment", deployment.Name)
 					updatedScale, err := deploymentInterface.UpdateScale(context.TODO(), deployment.Name, &newScale, metav1.UpdateOptions{})
 					if err != nil {
-						log.Fatalf("Failed to scale down the %v deployment:\n%v\n", deployment.Name, err)
+						log.Printf("Failed to scale down the %v deployment:\n%v\n", deployment.Name, err)
+						continue
 					}
 					log.Printf("Scaled down the %v deployment:\n%v\n", deployment.Name, updatedScale)
 				}
