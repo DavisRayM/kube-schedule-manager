@@ -58,11 +58,12 @@ func main() {
 					newScale := *currentScale
 					newScale.Spec.Replicas = 0
 
+					log.Printf("Scaling down the %v deployment", deployment.Name)
 					updatedScale, err := deploymentInterface.UpdateScale(context.TODO(), deployment.Name, &newScale, metav1.UpdateOptions{})
 					if err != nil {
 						log.Fatalf("Failed to scale down the %v deployment:\n%v\n", deployment.Name, err)
 					}
-					log.Printf("Updated scaling for the %v deployment:\n%v\n", deployment.Name, updatedScale)
+					log.Printf("Scaled down the %v deployment:\n%v\n", deployment.Name, updatedScale)
 				}
 			}
 		}
